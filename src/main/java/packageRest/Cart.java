@@ -1,3 +1,5 @@
+package packageRest;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import java.util.ArrayList;
@@ -7,18 +9,10 @@ import java.util.Scanner;
 @JsonAutoDetect
 
 public class Cart{
-    private int count;
     private double allPrice;
     private ArrayList<Product> cart = new ArrayList<>();
     private ArrayList<String> productList;
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
 
     public double getAllPrice() {
         double summ = 0.0;
@@ -41,7 +35,6 @@ public class Cart{
         String[] res = in.next().split(",");
         Product newProduct = new Product(res[0].toLowerCase(), res[1], Double.parseDouble(res[2]));
         this.cart.add(newProduct);
-        setCount(getCount()+1);
         System.out.println("Поздравляю! Вы добавили "+res[0]);
     }
 
@@ -67,6 +60,7 @@ public class Cart{
 
     public boolean checkInProductCart(String good) {
 
+        return true;
     }
 }
 

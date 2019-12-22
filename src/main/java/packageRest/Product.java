@@ -1,3 +1,5 @@
+package packageRest;
+
 class Product {
     private String name;
     private String category;
