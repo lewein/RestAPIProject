@@ -1,15 +1,16 @@
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public static void main(String[]args){
 
-};
+@JsonAutoDetect
 
-public class Supermarket{
+public class Cart{
     private int count;
     private double allPrice;
     private ArrayList<Product> cart = new ArrayList<>();
-    private String[] productList;
+    private ArrayList<String> productList;
 
     public int getCount() {
         return count;
@@ -38,52 +39,35 @@ public class Supermarket{
         System.out.println("Введите имя, категорию и цену продукта");
         Scanner in = new Scanner(System.in);
         String[] res = in.next().split(",");
-        Product newProduct = new Product(res[0], res[1], Double.parseDouble(res[2]));
+        Product newProduct = new Product(res[0].toLowerCase(), res[1], Double.parseDouble(res[2]));
         this.cart.add(newProduct);
         setCount(getCount()+1);
         System.out.println("Поздравляю! Вы добавили "+res[0]);
     }
 
     public void setProductList() {
-        String[] products;
-        System.out.println("Введите список покупок через Enter");
-        
-        this.productList = products;
+        System.out.println("Введите список покупок через запятую");
+        Scanner in = new Scanner(System.in);
+        String[] res = in.next().split(",");
+        for (String str : res) {
+            if (!checkInProductList(str)) {
+                this.productList.add(str.toLowerCase());
+            }
+        }
+    }
+
+    public boolean checkInProductList(String good) {
+        if (this.productList.contains(good.toLowerCase())) {
+            System.out.println(good + " - этот продукт 2ды встречается в твоем списке! Я его не добавлю.");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean checkInProductCart(String good) {
+
     }
 }
 
-class Product {
-    private String name;
-    private String category;
-    private double price;
 
-    Product(String n, String c, double p) {
-        setName(n);
-        setCategory(c);
-        setPrice(p);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-}
