@@ -1,44 +1,34 @@
 package packageRest;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 
 public class FileLoad {
-//    @RequestMapping(value = "/hello", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public RestResponse restMethod(String name) {
-//        RestResponse result = new RestResponse();
-//        result.setParam1("Hello");
-//        result.setParam2(name);
-//        return result;
-//    }
-//
-    @RequestMapping(value = "/upload", method = RequestMethod.POST, consumes = "application/json",produces = "application/json")
-    public @ResponseBody
-    String fileUpload(@RequestParam("name") String name,
-                            @RequestParam("file") MultipartFile file) {
-        if (!file.isEmpty()) {
-            try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(name + "-uploaded")));
-                String res = new String();
-                for (byte b:bytes) {
-                    res += (char)b;
-                }
-                stream.write(bytes);
-                stream.close();
-                return res;
-            } catch(Exception e) {
-                return "Вам не удалось загрузить файл! Ошибка "+ e.getMessage();
-            }
-        } else {
-            return "Загрузка не удалась! Файл " + name + " пустой!";
+
+    public File dir = new File("~/Java/RestAPIProject");
+    public FileLoad() {}
+
+    public void writeFile(String name, String text) throws IOException {
+        try (FileWriter writer = new FileWriter(name, false)) {
+            writer.write(text);
+            writer.flush();
         }
     }
+
+
+    public String readFile(String name){
+        String result = "";
+        try(FileInputStream fin=new FileInputStream(name)) {
+            int i=-1;
+            while((i=fin.read())!=-1){
+                result +=(char)i;
+            }
+        }
+        catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+        return result;
+    }
+
+
 }

@@ -11,50 +11,45 @@ import java.util.Scanner;
 public class Cart{
     private double allPrice;
     private ArrayList<Product> cart = new ArrayList<>();
-    private ArrayList<String> productList;
+    private ArrayList<String> productList = new ArrayList<>();
 
 
     public double getAllPrice() {
-        double summ = 0.0;
+        double allPrice = 0.0;
         for (Product good : cart) {
             allPrice += good.getPrice();
         }
-        return summ;
+        return allPrice;
     }
 
-    public void getCart() {
-        System.out.println("Название (категори) - цена");
-        for (Product good : cart) {
-            System.out.println(good.getName()+" ("+good.getCategory()+") - "+good.getPrice());
+    public void setAllPrice(double newPrice) {
+        this.allPrice = getAllPrice()+newPrice;
+    }
+
+    public ArrayList<Product> getCart() {
+        return this.cart;
+    }
+
+    public void addProduct(Product newGood) {
+        this.cart.add(newGood);
+        setAllPrice(newGood.getPrice());
+        System.out.println("Поздравляю! Вы добавили ");
+    }
+
+    public void setProductList(String list) {
+        for (String str : list.split(",")) {
+            this.productList.add(str.toLowerCase());
         }
     }
 
-    public void addProduct() {
-        System.out.println("Введите имя, категорию и цену продукта");
-        Scanner in = new Scanner(System.in);
-        String[] res = in.next().split(",");
-        Product newProduct = new Product(res[0].toLowerCase(), res[1], Double.parseDouble(res[2]));
-        this.cart.add(newProduct);
-        System.out.println("Поздравляю! Вы добавили "+res[0]);
-    }
-
-    public void setProductList() {
-        System.out.println("Введите список покупок через запятую");
-        Scanner in = new Scanner(System.in);
-        String[] res = in.next().split(",");
-        for (String str : res) {
-            if (!checkInProductList(str)) {
-                this.productList.add(str.toLowerCase());
-            }
+    public Object checkInProductList(String good) {
+        if (this.productList.size() == 0) {
+            return ("В твоем списке пусто, не могу проверить.");
         }
-    }
-
-    public boolean checkInProductList(String good) {
         if (this.productList.contains(good.toLowerCase())) {
-            System.out.println(good + " - этот продукт 2ды встречается в твоем списке! Я его не добавлю.");
-            return true;
+            return ("Да, в твоем списке есть такой продукт.");
         } else {
-            return false;
+            return ("По твоему запросу ничего не найдено.");
         }
     }
 
