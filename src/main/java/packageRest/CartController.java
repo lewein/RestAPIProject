@@ -32,7 +32,7 @@ public class CartController {
     }
 
     @RequestMapping("/cartPrice")
-    public Object cartPrice() {
+    public String cartPrice() {
         Double price = cart.getAllPrice();
         return "{\"status\":\"ok\",\"CartPrice\":\"" + price + "\"}";
     }
